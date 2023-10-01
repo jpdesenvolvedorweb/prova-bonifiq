@@ -1,4 +1,5 @@
 ﻿using ProvaPub.Models;
+using ProvaPub.Pagination;
 using ProvaPub.Repository;
 using ProvaPub.Services.Abstract;
 
@@ -13,10 +14,17 @@ namespace ProvaPub.Services.Concrete
             _ctx = ctx;
         }
 
-        public ProductList ListProducts(int page)
+        public GenericList<Product> ListProducts(int page)
         {
-            return new ProductList() { HasNext = false, TotalCount = 10, Products = _ctx.Products.ToList() };
+            var total = _ctx.Products.Count();
+            var qtRegistrosPagina = 10;
+            return new GenericList<Product>()
+            {
+                HasNext = QuantityPagination.VerificarHasNext(page, qtRegistrosPagina, total),
+                TotalCount = 10,
+                Elements = _ctx.Products.Skip((page - 1) * qtRegistrosPagina)
+                                          .Take(qtRegistrosPagina).ToList()
+            };
         }
-
     }
 }

@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NPOI.SS.Formula.Functions;
 using ProvaPub.Models;
+using ProvaPub.Pagination;
 using ProvaPub.Repository;
 using ProvaPub.Services.Abstract;
 
@@ -14,9 +16,18 @@ namespace ProvaPub.Services.Concrete
             _ctx = ctx;
         }
 
-        public CustomerList ListCustomers(int page)
+        public GenericList<Customer> ListCustomers(int page)
         {
-            return new CustomerList() { HasNext = false, TotalCount = 10, Customers = _ctx.Customers.ToList() };
+            var total = _ctx.Customers.Count();
+            var qtRegistrosPagina = 10;
+
+            return new GenericList<Customer>() 
+            { 
+                HasNext = QuantityPagination.VerificarHasNext(page, qtRegistrosPagina, total), 
+                TotalCount = 10, 
+                Elements = _ctx.Customers.Skip((page - 1) * qtRegistrosPagina)
+                                          .Take(qtRegistrosPagina).ToList()
+            };
         }
 
         public async Task<bool> CanPurchase(int customerId, decimal purchaseValue)

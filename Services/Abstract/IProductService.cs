@@ -4,6 +4,6 @@ namespace ProvaPub.Services.Abstract
 {
     public interface IProductService
     {
-        ProductList ListProducts(int page);
+        GenericList<Product> ListProducts(int page);
     }
 }
