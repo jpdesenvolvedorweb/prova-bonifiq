@@ -13,14 +13,19 @@ namespace ProvaPub.Controllers
 	{
 		private readonly IRandomService _randomService;
 
-		public Parte1Controller(IRandomService randomService)
+        #region CTOR
+        public Parte1Controller(IRandomService randomService)
 		{
 			_randomService = randomService;
 		}
-		[HttpGet]
+        #endregion
+
+        #region [Get]
+        [HttpGet]
 		public int Index()
 		{
 			return _randomService.GetRandom();
 		}
-	}
+        #endregion
+    }
 }
