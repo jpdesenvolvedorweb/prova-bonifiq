@@ -4,13 +4,13 @@ namespace ProvaPub.Services.Concrete
 {
     public class RandomService : IRandomService
     {
-        int seed;
+        
         public RandomService()
-        {
-            seed = Guid.NewGuid().GetHashCode();
+        {     
         }
         public int GetRandom()
         {
+           var seed = Guid.NewGuid().GetHashCode();
             return new Random(seed).Next(100);
         }
 
