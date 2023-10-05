@@ -19,14 +19,14 @@ namespace ProvaPub.Services.Concrete
         public GenericList<Customer> ListCustomers(int page)
         {
             var total = _ctx.Customers.Count();
-            var qtRegistrosPagina = 10;
+            var numberOfPages = 10;
 
             return new GenericList<Customer>() 
             { 
-                HasNext = QuantityPagination.VerificarHasNext(page, qtRegistrosPagina, total), 
+                HasNext = QuantityPagination.VerificarHasNext(page, numberOfPages, total), 
                 TotalCount = 10, 
-                Elements = _ctx.Customers.Skip((page - 1) * qtRegistrosPagina)
-                                          .Take(qtRegistrosPagina).ToList()
+                Elements = _ctx.Customers.Skip((page - 1) * numberOfPages)
+                                          .Take(numberOfPages).ToList()
             };
         }
 
